@@ -1,7 +1,7 @@
 // n8n Klaxoon OAuth2 API Credential Type
 import { ICredentialType, INodeProperties } from 'n8n-workflow';
-export class KlaxoonBoardsOAuth2Api implements ICredentialType {
-	name = 'KlaxoonBoardsOAuth2Api';
+export class KlaxoonOAuth2Api implements ICredentialType {
+	name = 'KlaxoonOAuth2Api';
 	extends = ['oAuth2Api'];
 	displayName = 'Klaxoon OAuth2 API';
 	documentationUrl = 'https://api.klaxoon.com/docs/oauth2';

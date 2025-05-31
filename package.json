@@ -33,11 +33,10 @@
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"credentials": [
-			"dist/credentials/KlaxoonBoardsOAuth2Api.credentials.js"
+			"dist/credentials/KlaxoonOAuth2Api.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/Klaxoon/KlaxoonBoards.node.js",
-      "dist/nodes/Klaxoon/KlaxoonIdeas.node.js"
+			"dist/nodes/Klaxoon/Klaxoon.node.js"
 		]
 	},
 	"devDependencies": {
