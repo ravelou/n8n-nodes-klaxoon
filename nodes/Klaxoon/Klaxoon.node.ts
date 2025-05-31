@@ -79,7 +79,18 @@ export class Klaxoon implements INodeType {
 						routing: {
 							request: {
 								method: 'GET',
-								url: '/boards/{{$value}}',
+							},
+						},
+					},
+					{
+						name: 'List All Boards',
+						value: 'listAllBoards',
+						action: 'List all boards',
+						description: 'List all user boards',
+						routing: {
+							request: {
+								method: 'GET',
+								url: '=/boards',
 							},
 						},
 					},
@@ -124,105 +135,48 @@ export class Klaxoon implements INodeType {
 				required: true,
 				description: 'The ID code of the board',
 			},
-			/*{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
+
+			{
+				displayName: 'Query Parameters',
+				name: 'queryParameters',
+				type: 'collection',
+				default: {},
+				placeholder: 'Add query parameters',
 				displayOptions: {
 					show: {
-						resource: ['marsRoverPhotos'],
+						resource: ['board'],
+						operation: ['listAllBoards'],
 					},
 				},
 				options: [
 					{
-						name: 'Get',
-						value: 'get',
-						action: 'Get mars rover photos',
-						description: 'Get photos from the Mars Rover',
+						displayName: 'Per Page',
+						name: 'perPage',
+						type: 'number',
+						default: 50,
 						routing: {
 							request: {
-								method: 'GET',
+								qs: {
+									perPage: '={{ $value }}',
+								},
+							},
+						},
+					},
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'number',
+						default: 1,
+						routing: {
+							request: {
+								qs: {
+									page: '={{ $value }}',
+								},
 							},
 						},
 					},
 				],
-				default: 'get',
 			},
-			{
-				displayName: 'Rover Name',
-				description: 'Choose which Mars Rover to get a photo from',
-				required: true,
-				name: 'roverName',
-				type: 'options',
-				options: [
-					{ name: 'Curiosity', value: 'curiosity' },
-					{ name: 'Opportunity', value: 'opportunity' },
-					{ name: 'Perseverance', value: 'perseverance' },
-					{ name: 'Spirit', value: 'spirit' },
-				],
-				routing: {
-					request: {
-						url: '=/mars-photos/api/v1/rovers/{{$value}}/photos',
-					},
-				},
-				default: 'curiosity',
-				displayOptions: {
-					show: {
-						resource: ['marsRoverPhotos'],
-					},
-				},
-			},
-			{
-				displayName: 'Date',
-				description: 'Earth date',
-				required: true,
-				name: 'marsRoverDate',
-				type: 'dateTime',
-				default: '',
-				displayOptions: {
-					show: {
-						resource: ['marsRoverPhotos'],
-					},
-				},
-				routing: {
-					request: {
-						// You've already set up the URL. qs appends the value of the field as a query string
-						qs: {
-							earth_date: '={{ new Date($value).toISOString().substr(0,10) }}',
-						},
-					},
-				},
-			},*/
-			// Optional/additional fields will go here
 		],
 	};
-	/**
-	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const items = this.getInputData();
-		const returnData: INodeExecutionData[] = [];
-
-		for (let i = 0; i < items.length; i++) {
-			const accessCode = this.getNodeParameter('accessCode', i) as string;
-
-			// Utilise la méthode standard d’auth n8n (ajoute automatiquement l’header d’auth).
-			const options: IHttpRequestOptions = {
-				method: 'GET',
-				url: `https://api.klaxoon.com/v1/boards/by-access-code/${accessCode}`,
-				// Tu peux ajouter headers, queryString, body, etc. si besoin
-			};
-
-			const responseData = await this.helpers.httpRequestWithAuthentication.call(
-				this,
-				'KlaxoonBoardsOAuth2Api',
-				options,
-			);
-
-			returnData.push({
-				json: responseData,
-			});
-		}
-
-		return [returnData];
-	}*/
 }
