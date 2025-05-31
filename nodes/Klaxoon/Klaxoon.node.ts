@@ -7,16 +7,16 @@ import {
 	NodeConnectionType,
 } from 'n8n-workflow';
 
-export class KlaxoonBoards implements INodeType {
+export class Klaxoon implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Klaxoon Get Board by Access Code',
-		name: 'KlaxoonBoards',
+		displayName: 'Klaxoon',
+		name: 'Klaxoon',
 		icon: 'file:../klaxoon.svg', // Place un SVG optionnel ici
 		group: ['transform'],
 		version: 1,
 		description: 'Get a Klaxoon board using an Access Code',
 		defaults: {
-			name: 'KlaxoonBoards',
+			name: 'Klaxoon',
 		},
 		inputs: [NodeConnectionType.Main],
 		outputs: [NodeConnectionType.Main],
