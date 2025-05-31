@@ -1,5 +1,6 @@
 import { INodeType, INodeTypeDescription, NodeConnectionType } from 'n8n-workflow';
-
+import { boardOperations, boardParameters } from './BoardDescription';
+import { ideaOperations, ideaParameters } from './IdeaDescription';
 export class Klaxoon implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Klaxoon',
@@ -15,7 +16,7 @@ export class Klaxoon implements INodeType {
 		outputs: [NodeConnectionType.Main],
 		credentials: [
 			{
-				name: 'KlaxoonOAuth2Api',
+				name: 'klaxoonOAuth2Api',
 				required: true,
 				testedBy: 'oauth2Test',
 			},
@@ -28,6 +29,9 @@ export class Klaxoon implements INodeType {
 			},
 		},
 		properties: [
+			/**
+			 * RESOURCE
+			 */
 			{
 				displayName: 'Data to Fetch',
 				name: 'resource',
@@ -48,135 +52,10 @@ export class Klaxoon implements INodeType {
 				default: 'board',
 				description: 'Get type of resource to fetch',
 			},
-
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['board'],
-					},
-				},
-				options: [
-					{
-						name: 'Get by Access Code',
-						value: 'getByAccessCode',
-						action: 'Get the board information by access code',
-						description: 'Get all the information from a board by its access code',
-						routing: {
-							request: {
-								method: 'GET',
-							},
-						},
-					},
-					{
-						name: 'Get by ID',
-						value: 'getById',
-						action: 'Get the board information by ID',
-						description: 'Get all the information from a board by its ID',
-						routing: {
-							request: {
-								method: 'GET',
-							},
-						},
-					},
-					{
-						name: 'List All Boards',
-						value: 'listAllBoards',
-						action: 'List all boards',
-						description: 'List all user boards',
-						routing: {
-							request: {
-								method: 'GET',
-								url: '=/boards',
-							},
-						},
-					},
-				],
-				default: 'getByAccessCode',
-			},
-			{
-				displayName: 'Access Code',
-				name: 'accessCode',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['board'],
-						operation: ['getByAccessCode'],
-					},
-				},
-				routing: {
-					request: {
-						url: '=/boards/by-access-code/{{$value}}',
-					},
-				},
-				default: '',
-				required: true,
-				description: 'The access code for the board',
-			},
-			{
-				displayName: 'Board ID',
-				name: 'boardId',
-				type: 'string',
-				displayOptions: {
-					show: {
-						resource: ['board'],
-						operation: ['getById'],
-					},
-				},
-				routing: {
-					request: {
-						url: '=/boards/{{$value}}',
-					},
-				},
-				default: '',
-				required: true,
-				description: 'The ID code of the board',
-			},
-
-			{
-				displayName: 'Query Parameters',
-				name: 'queryParameters',
-				type: 'collection',
-				default: {},
-				placeholder: 'Add query parameters',
-				displayOptions: {
-					show: {
-						resource: ['board'],
-						operation: ['listAllBoards'],
-					},
-				},
-				options: [
-					{
-						displayName: 'Per Page',
-						name: 'perPage',
-						type: 'number',
-						default: 50,
-						routing: {
-							request: {
-								qs: {
-									perPage: '={{ $value }}',
-								},
-							},
-						},
-					},
-					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'number',
-						default: 1,
-						routing: {
-							request: {
-								qs: {
-									page: '={{ $value }}',
-								},
-							},
-						},
-					},
-				],
-			},
+			...boardOperations,
+			...boardParameters,
+			...ideaOperations,
+			...ideaParameters,
 		],
 	};
 }
