@@ -1,4 +1,4 @@
-import type { INodeProperties } from 'n8n-workflow';
+import { type INodeProperties } from 'n8n-workflow';
 
 /**
  * OPERATION resource idea
@@ -15,6 +15,18 @@ export const ideaOperations: INodeProperties[] = [
 			},
 		},
 		options: [
+			{
+				name: 'Create an Ideas',
+				value: 'createIdea',
+				action: 'Create an idea',
+				description: 'Create a new idea in a specific board',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/boards/{{ $parameter["boardId"] }}/ideas',
+					},
+				},
+			},
 			{
 				name: 'List All Board Ideas',
 				value: 'listAllBoardIdeas',
@@ -65,17 +77,34 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['listAllBoardIdeas'],
-			},
-		},
-		routing: {
-			request: {
-				//url: '=/boards/{{$value}}/ideas',
+				operation: ['listAllBoardIdeas', 'createIdea'],
 			},
 		},
 		default: '',
 		required: true,
 		description: 'The ID code of the board',
+	},
+	{
+		displayName: 'Content',
+		name: 'content',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				propertyInDotNotation: true,
+				property: 'data.content',
+				value: '={{ $parameter["content"] }}',
+			},
+		},
+		default: '',
+		required: true,
+		description: 'The content of the idea',
 	},
 	{
 		displayName: 'Query Parameters',
