@@ -107,6 +107,27 @@ export const ideaParameters: INodeProperties[] = [
 		description: 'The content of the idea',
 	},
 	{
+		displayName: 'X',
+		name: 'x',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				propertyInDotNotation: true,
+				property: 'position.x',
+				value: '={{ $parameter["x"] }}',
+			},
+		},
+		default: '',
+		description: 'The x coordinate of the idea position',
+	},
+	{
 		displayName: 'Query Parameters',
 		name: 'queryParameters',
 		type: 'collection',
