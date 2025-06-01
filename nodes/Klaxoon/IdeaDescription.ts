@@ -58,7 +58,7 @@ export const ideaOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'PATCH',
-						url: '=/boards/parameters.boardId/ideas/{{ $parameter.ideaId }}',
+						url: '=/boards/{{ $parameter.boardId }}/ideas/{{ $parameter.ideaId }}',
 					},
 				},
 			},
@@ -77,7 +77,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['listBoardIdeas', 'createIdea'],
+				operation: ['listBoardIdeas', 'createIdea', 'updateBoardIdea'],
 			},
 		},
 		default: '',
@@ -113,7 +113,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['createIdea'],
+				operation: ['createIdea', 'updateBoardIdea'],
 			},
 		},
 		routing: {
@@ -134,7 +134,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['createIdea'],
+				operation: ['createIdea', 'updateBoardIdea'],
 			},
 		},
 		routing: {
@@ -156,7 +156,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['createIdea'],
+				operation: ['createIdea', 'updateBoardIdea'],
 			},
 		},
 		routing: {
@@ -179,7 +179,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['createIdea'],
+				operation: ['createIdea', 'updateBoardIdea'],
 			},
 		},
 		options: [
@@ -222,7 +222,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['createIdea'],
+				operation: ['createIdea', 'updateBoardIdea'],
 			},
 		},
 		default: {},
@@ -259,6 +259,62 @@ export const ideaParameters: INodeProperties[] = [
 				value: '={{ $value.dimensionArray.map((item) => ({ id: item.id, value: item.value })) }}',
 			},
 		},
+	},
+
+	{
+		displayName: 'Query Parameters',
+		name: 'queryParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add query parameters',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['listBoardIdeas'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Content',
+				name: 'content',
+				type: 'string',
+				placeholder: 'Text of an idea',
+				routing: {
+					request: {
+						qs: {
+							content: '={{ $value }}',
+						},
+					},
+				},
+				default: '',
+			},
+			{
+				displayName: 'Page',
+				name: 'page',
+				type: 'number',
+				default: 1,
+				routing: {
+					request: {
+						qs: {
+							page: '={{ $value }}',
+						},
+					},
+				},
+			},
+			{
+				displayName: 'Per Page',
+				name: 'perPage',
+				type: 'number',
+				default: 50,
+				routing: {
+					request: {
+						qs: {
+							perPage: '={{ $value }}',
+						},
+					},
+				},
+			},
+		],
 	},
 	{
 		displayName: 'Authors ID',
@@ -298,58 +354,40 @@ export const ideaParameters: INodeProperties[] = [
 		},
 	},
 	{
-		displayName: 'Query Parameters',
-		name: 'queryParameters',
-		type: 'collection',
-		default: {},
-		placeholder: 'Add query parameters',
+		displayName: 'Categroy ID',
+		name: 'categoriesId',
+		type: 'fixedCollection',
 		displayOptions: {
 			show: {
 				resource: ['idea'],
 				operation: ['listBoardIdeas'],
 			},
 		},
+		default: {},
 		options: [
 			{
-				displayName: 'Per Page',
-				name: 'perPage',
-				type: 'number',
-				default: 50,
-				routing: {
-					request: {
-						qs: {
-							perPage: '={{ $value }}',
-						},
+				name: 'categoryIDArray',
+				displayName: 'Category',
+				values: [
+					{
+						displayName: 'Category ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'The Category ID',
+						default: '',
 					},
-				},
-			},
-			{
-				displayName: 'Page',
-				name: 'page',
-				type: 'number',
-				default: 1,
-				routing: {
-					request: {
-						qs: {
-							page: '={{ $value }}',
-						},
-					},
-				},
-			},
-			{
-				displayName: 'Content',
-				name: 'content',
-				type: 'string',
-				placeholder: 'Text of an idea',
-				routing: {
-					request: {
-						qs: {
-							content: '={{ $value }}',
-						},
-					},
-				},
-				default: '',
+				],
 			},
 		],
+		typeOptions: {
+			multipleValues: true,
+		},
+		routing: {
+			request: {
+				qs: {
+					authorId: '={{ $value.categoryIDArray.map((item) => item.id).join(",") }}',
+				},
+			},
+		},
 	},
 ];

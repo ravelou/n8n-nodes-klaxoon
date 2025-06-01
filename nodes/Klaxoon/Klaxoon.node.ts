@@ -1,5 +1,6 @@
 import { INodeType, INodeTypeDescription, NodeConnectionType } from 'n8n-workflow';
 import { boardOperations, boardParameters } from './BoardDescription';
+import { dimensionOperations, dimensionParameters } from './DimensionDescription'; // Duplicate to ensure all operations are included
 import { ideaOperations, ideaParameters } from './IdeaDescription';
 export class Klaxoon implements INodeType {
 	description: INodeTypeDescription = {
@@ -56,6 +57,8 @@ export class Klaxoon implements INodeType {
 			...boardParameters,
 			...ideaOperations,
 			...ideaParameters,
+			...dimensionOperations, // Duplicate to ensure all operations are included
+			...dimensionParameters, // Duplicate to ensure all parameters are included
 		],
 	};
 }
