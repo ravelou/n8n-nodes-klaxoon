@@ -13,6 +13,30 @@ export const colorOperations: INodeProperties[] = [
 		},
 		options: [
 			{
+				name: 'Create Color',
+				value: 'createColor',
+				action: 'Create a new color',
+				description: 'Create a new color in a specific board',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/boards/{{ $parameter["boardId"] }}/colors',
+					},
+				},
+			},
+			{
+				name: 'Delete Color',
+				value: 'deleteColor',
+				action: 'Delete a color',
+				description: 'Delete a specific color from a board by its ID. This action is irreversible.',
+				routing: {
+					request: {
+						method: 'DELETE',
+						url: '=/boards/{{ $parameter["boardId"] }}/colors/{{ $parameter["colorId"] }}',
+					},
+				},
+			},
+			{
 				name: 'Get Color',
 				value: 'getColor',
 				action: 'Get a specific color',
@@ -36,6 +60,18 @@ export const colorOperations: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Update Color',
+				value: 'updateColor',
+				action: 'Update a color',
+				description: 'Update a specific color in a board by its ID',
+				routing: {
+					request: {
+						method: 'PATCH',
+						url: '=/boards/{{ $parameter["boardId"] }}/colors/{{ $parameter["colorId"] }}',
+					},
+				},
+			},
 		],
 		default: 'listColors',
 	},
@@ -50,7 +86,7 @@ export const colorParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['color'],
-				operation: ['getColor', 'listColors'],
+				operation: ['getColor', 'listColors', 'createColor', 'deleteColor', 'updateColor'],
 			},
 		},
 		default: '',
@@ -59,55 +95,101 @@ export const colorParameters: INodeProperties[] = [
 	{
 		displayName: 'Color ID',
 		name: 'colorId',
-		type: 'color',
+		// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
+		type: 'string',
 		required: true,
 		displayOptions: {
 			show: {
 				resource: ['color'],
-				operation: ['getColor'],
+				operation: ['getColor', 'deleteColor', 'updateColor'],
 			},
 		},
 		default: '',
 		description: 'The ID of the color to retrieve',
 	},
 	{
-		displayName: 'Page',
-		name: 'page',
-		type: 'number',
-		default: 1,
+		displayName: 'Query Parameters',
+		name: 'queryParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add query parameters',
 		displayOptions: {
 			show: {
 				resource: ['color'],
 				operation: ['listColors'],
 			},
 		},
-		description: 'Page number for pagination',
-		routing: {
-			request: {
-				qs: {
-					page: '={{ $value }}',
+		options: [
+			{
+				displayName: 'Page',
+				name: 'page',
+				type: 'number',
+				default: 1,
+				routing: {
+					request: {
+						qs: {
+							page: '={{ $value }}',
+						},
+					},
 				},
 			},
-		},
+			{
+				displayName: 'Per Page',
+				name: 'perPage',
+				type: 'number',
+				default: 50,
+				routing: {
+					request: {
+						qs: {
+							perPage: '={{ $value }}',
+						},
+					},
+				},
+			},
+		],
 	},
 	{
-		displayName: 'Per Page',
-		name: 'perPage',
-		type: 'number',
-		default: 50,
+		displayName: 'Color Parameters',
+		name: 'colorParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add color parameters',
 		displayOptions: {
 			show: {
 				resource: ['color'],
-				operation: ['listColors'],
+				operation: ['createColor', 'updateColor'],
 			},
 		},
-		description: 'Number of items per page',
-		routing: {
-			request: {
-				qs: {
-					perPage: '={{ $value }}',
+		options: [
+			{
+				displayName: 'Label of the Color',
+				name: 'label',
+				// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'label',
+						value: '={{ $value }}',
+					},
 				},
 			},
-		},
+			{
+				displayName: 'Color Code',
+				name: 'colorCode',
+				type: 'color',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'value',
+						value: '={{ $value }}',
+					},
+				},
+			},
+		],
 	},
 ];
