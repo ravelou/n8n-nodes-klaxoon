@@ -275,6 +275,36 @@ export const ideaParameters: INodeProperties[] = [
 		},
 		options: [
 			{
+				displayName: 'Author ID',
+				name: 'authorId',
+				type: 'string',
+				default: '',
+				routing: {
+					request: {
+						qs: {
+							authorId: '={{ $value }}',
+						},
+					},
+				},
+				placeholder: 'Array of author ID',
+				description: 'Filter ideas by author ID',
+			},
+			{
+				displayName: 'Category ID',
+				name: 'categoryId',
+				type: 'string',
+				default: '',
+				routing: {
+					request: {
+						qs: {
+							authorId: '={{ $value }}',
+						},
+					},
+				},
+				placeholder: 'Array of category ID',
+				description: 'Filter ideas by category ID',
+			},
+			{
 				displayName: 'Content',
 				name: 'content',
 				type: 'string',
@@ -315,79 +345,5 @@ export const ideaParameters: INodeProperties[] = [
 				},
 			},
 		],
-	},
-	{
-		displayName: 'Authors ID',
-		name: 'authorsId',
-		type: 'fixedCollection',
-		displayOptions: {
-			show: {
-				resource: ['idea'],
-				operation: ['listBoardIdeas'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				name: 'authorIDArray',
-				displayName: 'Author',
-				values: [
-					{
-						displayName: 'Author ID',
-						name: 'id',
-						type: 'string',
-						placeholder: 'The author ID',
-						default: '',
-					},
-				],
-			},
-		],
-		typeOptions: {
-			multipleValues: true,
-		},
-		routing: {
-			request: {
-				qs: {
-					authorId: '={{ $value.authorIDArray.map((item) => item.id).join(",") }}',
-				},
-			},
-		},
-	},
-	{
-		displayName: 'Categroy ID',
-		name: 'categoriesId',
-		type: 'fixedCollection',
-		displayOptions: {
-			show: {
-				resource: ['idea'],
-				operation: ['listBoardIdeas'],
-			},
-		},
-		default: {},
-		options: [
-			{
-				name: 'categoryIDArray',
-				displayName: 'Category',
-				values: [
-					{
-						displayName: 'Category ID',
-						name: 'id',
-						type: 'string',
-						placeholder: 'The Category ID',
-						default: '',
-					},
-				],
-			},
-		],
-		typeOptions: {
-			multipleValues: true,
-		},
-		routing: {
-			request: {
-				qs: {
-					authorId: '={{ $value.categoryIDArray.map((item) => item.id).join(",") }}',
-				},
-			},
-		},
 	},
 ];
