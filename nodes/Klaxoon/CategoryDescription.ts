@@ -13,6 +13,31 @@ export const categoryOperations: INodeProperties[] = [
 		},
 		options: [
 			{
+				name: 'Create Category',
+				value: 'createCategory',
+				action: 'Create a new category',
+				description: 'Create a new category in a specific board',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/boards/{{ $parameter["boardId"] }}/categories',
+					},
+				},
+			},
+			{
+				name: 'Delete Category',
+				value: 'deleteCategory',
+				action: 'Delete a category',
+				description:
+					'Delete a specific category from a board by its ID. This action is irreversible.',
+				routing: {
+					request: {
+						method: 'DELETE',
+						url: '=/boards/{{ $parameter["boardId"] }}/categories/{{ $parameter["categoryId"] }}',
+					},
+				},
+			},
+			{
 				name: 'Get Category',
 				value: 'getCategory',
 				action: 'Get a specific category',
@@ -36,6 +61,18 @@ export const categoryOperations: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Update Category',
+				value: 'updateCategory',
+				action: 'Update a category',
+				description: 'Update a specific category in a board by its ID',
+				routing: {
+					request: {
+						method: 'PATCH',
+						url: '=/boards/{{ $parameter["boardId"] }}/categories/{{ $parameter["categoryId"] }}',
+					},
+				},
+			},
 		],
 		default: 'listCategories',
 	},
@@ -50,7 +87,13 @@ export const categoryParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['category'],
-				operation: ['getCategory', 'listCategories'],
+				operation: [
+					'getCategory',
+					'listCategories',
+					'createCategory',
+					'deleteCategory',
+					'updateCategory',
+				],
 			},
 		},
 		default: '',
@@ -64,50 +107,103 @@ export const categoryParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['category'],
-				operation: ['getCategory'],
+				operation: ['getCategory', 'deleteCategory', 'updateCategory'],
 			},
 		},
 		default: '',
 		description: 'The ID of the category to retrieve',
 	},
 	{
-		displayName: 'Page',
-		name: 'page',
-		type: 'number',
-		default: 1,
+		displayName: 'Category Title',
+		name: 'categoryTitle',
+		type: 'string',
+		required: true,
 		displayOptions: {
 			show: {
 				resource: ['category'],
-				operation: ['listCategories'],
+				operation: ['createCategory'],
 			},
 		},
-		description: 'Page number for pagination',
+		default: '',
 		routing: {
-			request: {
-				qs: {
-					page: '={{ $value }}',
-				},
+			send: {
+				type: 'body',
+				propertyInDotNotation: true,
+				property: 'label',
+				value: '={{ $value }}',
 			},
 		},
+		description: 'The ID of the category to retrieve',
 	},
 	{
-		displayName: 'Per Page',
-		name: 'perPage',
-		type: 'number',
-		default: 50,
+		displayName: 'Query Parameters',
+		name: 'queryParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add query parameters',
 		displayOptions: {
 			show: {
 				resource: ['category'],
 				operation: ['listCategories'],
 			},
 		},
-		description: 'Number of items per page',
-		routing: {
-			request: {
-				qs: {
-					perPage: '={{ $value }}',
+		options: [
+			{
+				displayName: 'Page',
+				name: 'page',
+				type: 'number',
+				default: 1,
+				routing: {
+					request: {
+						qs: {
+							page: '={{ $value }}',
+						},
+					},
 				},
 			},
+			{
+				displayName: 'Per Page',
+				name: 'perPage',
+				type: 'number',
+				default: 50,
+				routing: {
+					request: {
+						qs: {
+							perPage: '={{ $value }}',
+						},
+					},
+				},
+			},
+		],
+	},
+	{
+		displayName: 'Category Parameters',
+		name: 'categoryParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add category parameters',
+		displayOptions: {
+			show: {
+				resource: ['category'],
+				operation: ['updateCategory'],
+			},
 		},
+		options: [
+			{
+				displayName: 'Label of the Category',
+				name: 'label',
+				// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'label',
+						value: '={{ $value }}',
+					},
+				},
+			},
+		],
 	},
 ];
