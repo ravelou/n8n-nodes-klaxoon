@@ -16,14 +16,14 @@ export const ideaOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'List All Board Ideas',
-				value: 'listAllBoardIdeas',
-				action: 'List all ideas from a board',
-				description: 'List all ideas from a specific board',
+				name: 'Delete Board Idea',
+				value: 'deleteBoardIdea',
+				action: 'Delete the board idea',
+				description: 'Delete a specific idea from a board',
 				routing: {
 					request: {
-						method: 'GET',
-						url: '=/boards/{{ $parameter["boardId"] }}/ideas',
+						method: 'DELETE',
+						url: '=/boards/$parameters["boardId"]/ideas/{{$parameters["ideaId"]}}',
 					},
 				},
 			},
@@ -35,6 +35,19 @@ export const ideaOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
+						url: '=/boards/{{ $parameter["boardId"] }}/ideas/{{ $parameter["ideaId"] }}',
+					},
+				},
+			},
+			{
+				name: 'List All Board Ideas',
+				value: 'listAllBoardIdeas',
+				action: 'List all ideas from a board',
+				description: 'List all ideas from a specific board',
+				routing: {
+					request: {
+						method: 'GET',
+						url: '=/boards/{{ $parameter["boardId"] }}/ideas',
 					},
 				},
 			},
@@ -65,7 +78,13 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['listAllBoardIdeas'],
+				operation: [
+					'getBoardIdea',
+					'updateBoardIdea',
+					'deleteBoardIdea',
+					'listAllBoardIdeas',
+					//'createBoardIdea',
+				],
 			},
 		},
 		routing: {
@@ -76,6 +95,25 @@ export const ideaParameters: INodeProperties[] = [
 		default: '',
 		required: true,
 		description: 'The ID code of the board',
+	},
+	{
+		displayName: 'Idea ID',
+		name: 'ideaId',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['getBoardIdea', 'updateBoardIdea', 'deleteBoardIdea'],
+			},
+		},
+		routing: {
+			request: {
+				//url: '=/boards/{{$value}}/ideas',
+			},
+		},
+		default: '',
+		required: true,
+		description: 'The ID code of the idea',
 	},
 	{
 		displayName: 'Query Parameters',
@@ -89,6 +127,12 @@ export const ideaParameters: INodeProperties[] = [
 				name: 'perPage',
 				type: 'number',
 				default: 50,
+				displayOptions: {
+					show: {
+						resource: ['idea'],
+						operation: ['listAllBoardIdeas'],
+					},
+				},
 				routing: {
 					request: {
 						qs: {
@@ -102,6 +146,12 @@ export const ideaParameters: INodeProperties[] = [
 				name: 'page',
 				type: 'number',
 				default: 1,
+				displayOptions: {
+					show: {
+						resource: ['idea'],
+						operation: ['listAllBoardIdeas'],
+					},
+				},
 				routing: {
 					request: {
 						qs: {
@@ -109,6 +159,64 @@ export const ideaParameters: INodeProperties[] = [
 						},
 					},
 				},
+			},
+		],
+	},
+	{
+		displayName: 'Position Parameters',
+		name: 'positionParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add position parameters',
+		options: [
+			{
+				displayName: 'Position Parameters',
+				name: 'positionParameters',
+				type: 'collection',
+				default: {},
+				placeholder: 'Add position parameters',
+				options: [
+					{
+						displayName: 'Category Idea',
+						name: 'category_id',
+						type: 'string',
+						default: '',
+						placeholder: 'Category of the idea',
+					},
+					{
+						displayName: 'Color Idea',
+						name: 'color_id',
+						// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
+						type: 'string',
+						default: '',
+						placeholder: 'color ID of the idea',
+					},
+					{
+						displayName: 'Content Idea',
+						name: 'content',
+						type: 'string',
+						default: '',
+						placeholder: 'Content of the idea',
+					},
+					{
+						displayName: 'X Position',
+						name: 'xPosition',
+						type: 'number',
+						default: 0,
+					},
+					{
+						displayName: 'Y Position',
+						name: 'yPosition',
+						type: 'number',
+						default: 0,
+					},
+					{
+						displayName: 'Z Position',
+						name: 'zPosition',
+						type: 'number',
+						default: 1,
+					},
+				],
 			},
 		],
 	},
