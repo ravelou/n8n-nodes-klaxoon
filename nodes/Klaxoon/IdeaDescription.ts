@@ -88,6 +88,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayName: 'Content',
 		name: 'content',
 		type: 'string',
+		placeholder: 'My new idea',
 		displayOptions: {
 			show: {
 				resource: ['idea'],
@@ -103,13 +104,12 @@ export const ideaParameters: INodeProperties[] = [
 			},
 		},
 		default: '',
-		required: true,
 		description: 'The content of the idea',
 	},
 	{
 		displayName: 'X',
 		name: 'x',
-		type: 'string',
+		type: 'number',
 		displayOptions: {
 			show: {
 				resource: ['idea'],
@@ -124,8 +124,170 @@ export const ideaParameters: INodeProperties[] = [
 				value: '={{ $parameter["x"] }}',
 			},
 		},
-		default: '',
+		default: 0,
 		description: 'The x coordinate of the idea position',
+	},
+	{
+		displayName: 'Y',
+		name: 'y',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				propertyInDotNotation: true,
+				property: 'position.y',
+				value: '={{ $parameter["y"] }}',
+			},
+		},
+		default: 0,
+		description: 'The y coordinate of the idea position',
+	},
+	{
+		displayName: 'Z',
+		name: 'z',
+		placeholder: '1',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				propertyInDotNotation: true,
+				property: 'position.z',
+				value: '={{ $parameter["z"] }}',
+			},
+		},
+		default: 1,
+		description: 'The z coordinate of the idea position',
+	},
+	{
+		displayName: 'Idea Parameters',
+		name: 'ideaParameters',
+		type: 'collection',
+		default: {},
+		placeholder: 'Add idea parameters',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Color ID',
+				name: 'colorId',
+				// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'data.color.id',
+						value: '={{ $value }}',
+					},
+				},
+			},
+			{
+				displayName: 'Category ID',
+				name: 'categoryId',
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'data.category.id',
+						value: '={{ $value }}',
+					},
+				},
+			},
+			/*{
+				displayName: 'Dimension ID',
+				name: 'dimensionId',
+				type: 'string',
+				placeholder: 'The dimension ID',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'data.dimension.id',
+						value: '={{ $value }}',
+					},
+				},
+			},
+			{
+				displayName: 'Dimension Value',
+				name: 'dimensionValue',
+				type: 'string',
+				default: '',
+				routing: {
+					send: {
+						type: 'body',
+						propertyInDotNotation: true,
+						property: 'data.dimension.value',
+						value: '={{ $value }}',
+					},
+				},
+			},*/
+		],
+	},
+	{
+		displayName: 'Dimensions',
+		name: 'dimensions',
+		type: 'fixedCollection',
+		placeholder: 'Add Dimension',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['createIdea'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				name: 'dimensionArray',
+				displayName: 'Dimension',
+				values: [
+					{
+						displayName: 'Dimension ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'The dimension ID',
+						default: '',
+					},
+					{
+						displayName: 'Dimension Value',
+						name: 'value',
+						type: 'string',
+						placeholder: 'The dimension Value',
+						default: '',
+					},
+				],
+			},
+		],
+		typeOptions: {
+			multipleValues: true,
+			inputFieldMaxLength: 3,
+		},
+		routing: {
+			send: {
+				type: 'body',
+				property: 'data.dimensions',
+				value: '={{ $value.dimensionArray.map((item) => ({ id: item.id, value: item.value })) }}',
+			},
+		},
 	},
 	{
 		displayName: 'Query Parameters',
@@ -133,6 +295,12 @@ export const ideaParameters: INodeProperties[] = [
 		type: 'collection',
 		default: {},
 		placeholder: 'Add query parameters',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['listAllBoardIdeas'],
+			},
+		},
 		options: [
 			{
 				displayName: 'Per Page',
