@@ -1,48 +1,59 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+![Klaxoon Banner](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
 
-# n8n-nodes-starter
+# n8n-nodes-klaxoon
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+Custom [n8n](https://n8n.io) nodes for integrating with the [Klaxoon API](https://developer.klaxoon.com/). This package allows you to automate and manage Klaxoon boards, ideas, categories, colors, and dimensions directly from your n8n workflows.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## Features
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+- **Board**: List, get, and manage Klaxoon boards.
+- **Idea**: Create, update, and list ideas on boards.
+- **Category**: List and get categories for a board.
+- **Color**: List and get colors for a board.
+- **Dimension**: Create, update, list, and get dimensions for a board.
 
 ## Prerequisites
 
-You need the following installed on your development machine:
+- [Node.js](https://nodejs.org/) (version 20 or higher)
+- [npm](https://www.npmjs.com/)
+- [n8n](https://n8n.io/) installed globally or in your project
+- A Klaxoon account and API credentials
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+## Installation
 
-## Using this starter
+Install n8n globally if you haven't already:
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+```bash
+npm install -g n8n
+```
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+Clone this repository and install dependencies:
 
-## More information
+```bash
+git clone https://github.com/<your-organization>/n8n-nodes-klaxoon.git
+cd n8n-nodes-klaxoon
+npm install
+```
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+## Usage
+
+1. Copy or symlink the nodes in the `/nodes` directory into your local n8n custom nodes directory, or use [n8n's community nodes feature](https://docs.n8n.io/integrations/community-nodes/).
+2. Restart n8n.
+3. In the n8n editor, search for "Klaxoon" to find the available Klaxoon nodes.
+4. Configure your Klaxoon OAuth2 credentials in n8n.
+5. Use the nodes in your workflows to interact with Klaxoon resources.
+
+## Development
+
+- Edit or extend the nodes in `/nodes/Klaxoon/`.
+- Run `npm run lint` to check for code style issues.
+- Run `npm run lintfix` to auto-fix lint errors.
+- Test your nodes locally in n8n.
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests for improvements and bug fixes.
 
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+[MIT](LICENSE.md)
