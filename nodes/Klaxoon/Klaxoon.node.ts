@@ -49,6 +49,11 @@ export class Klaxoon implements INodeType {
 						value: 'idea',
 						description: 'Get info from an idea',
 					},
+					{
+						name: 'Dimension',
+						value: 'dimension',
+						description: 'Get info from a dimension',
+					},
 				],
 				default: 'board',
 				description: 'Get type of resource to fetch',
