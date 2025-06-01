@@ -28,10 +28,10 @@ export const ideaOperations: INodeProperties[] = [
 				},
 			},
 			{
-				name: 'List All Board Ideas',
-				value: 'listAllBoardIdeas',
-				action: 'List all ideas from a board',
-				description: 'List all ideas from a specific board',
+				name: 'List Board Ideas',
+				value: 'listBoardIdeas',
+				action: 'List ideas from a board',
+				description: 'List ideas from a specific board',
 				routing: {
 					request: {
 						method: 'GET',
@@ -58,12 +58,12 @@ export const ideaOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'PATCH',
-						url: '=/boards/parameters.boardId/ideas/{{parameters.ideaId}}',
+						url: '=/boards/parameters.boardId/ideas/{{ $parameter.ideaId }}',
 					},
 				},
 			},
 		],
-		default: 'listAllBoardIdeas',
+		default: 'listBoardIdeas',
 	},
 ];
 /**
@@ -77,7 +77,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['listAllBoardIdeas', 'createIdea'],
+				operation: ['listBoardIdeas', 'createIdea'],
 			},
 		},
 		default: '',
@@ -88,7 +88,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayName: 'Content',
 		name: 'content',
 		type: 'string',
-		placeholder: 'My new idea',
+		placeholder: 'Text of an idea',
 		displayOptions: {
 			show: {
 				resource: ['idea'],
@@ -100,7 +100,7 @@ export const ideaParameters: INodeProperties[] = [
 				type: 'body',
 				propertyInDotNotation: true,
 				property: 'data.content',
-				value: '={{ $parameter["content"] }}',
+				value: '={{ $value }}',
 			},
 		},
 		default: '',
@@ -121,7 +121,7 @@ export const ideaParameters: INodeProperties[] = [
 				type: 'body',
 				propertyInDotNotation: true,
 				property: 'position.x',
-				value: '={{ $parameter["x"] }}',
+				value: '={{ $value }}',
 			},
 		},
 		default: 0,
@@ -142,7 +142,7 @@ export const ideaParameters: INodeProperties[] = [
 				type: 'body',
 				propertyInDotNotation: true,
 				property: 'position.y',
-				value: '={{ $parameter["y"] }}',
+				value: '={{ $value}}',
 			},
 		},
 		default: 0,
@@ -164,7 +164,7 @@ export const ideaParameters: INodeProperties[] = [
 				type: 'body',
 				propertyInDotNotation: true,
 				property: 'position.z',
-				value: '={{ $parameter["z"] }}',
+				value: '={{ $value }}',
 			},
 		},
 		default: 1,
@@ -212,35 +212,6 @@ export const ideaParameters: INodeProperties[] = [
 					},
 				},
 			},
-			/*{
-				displayName: 'Dimension ID',
-				name: 'dimensionId',
-				type: 'string',
-				placeholder: 'The dimension ID',
-				default: '',
-				routing: {
-					send: {
-						type: 'body',
-						propertyInDotNotation: true,
-						property: 'data.dimension.id',
-						value: '={{ $value }}',
-					},
-				},
-			},
-			{
-				displayName: 'Dimension Value',
-				name: 'dimensionValue',
-				type: 'string',
-				default: '',
-				routing: {
-					send: {
-						type: 'body',
-						propertyInDotNotation: true,
-						property: 'data.dimension.value',
-						value: '={{ $value }}',
-					},
-				},
-			},*/
 		],
 	},
 	{
@@ -290,6 +261,43 @@ export const ideaParameters: INodeProperties[] = [
 		},
 	},
 	{
+		displayName: 'Authors ID',
+		name: 'authorsId',
+		type: 'fixedCollection',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['listBoardIdeas'],
+			},
+		},
+		default: {},
+		options: [
+			{
+				name: 'authorIDArray',
+				displayName: 'Author',
+				values: [
+					{
+						displayName: 'Author ID',
+						name: 'id',
+						type: 'string',
+						placeholder: 'The author ID',
+						default: '',
+					},
+				],
+			},
+		],
+		typeOptions: {
+			multipleValues: true,
+		},
+		routing: {
+			request: {
+				qs: {
+					authorId: '={{ $value.authorIDArray.map((item) => item.id).join(",") }}',
+				},
+			},
+		},
+	},
+	{
 		displayName: 'Query Parameters',
 		name: 'queryParameters',
 		type: 'collection',
@@ -298,7 +306,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-				operation: ['listAllBoardIdeas'],
+				operation: ['listBoardIdeas'],
 			},
 		},
 		options: [
@@ -327,6 +335,20 @@ export const ideaParameters: INodeProperties[] = [
 						},
 					},
 				},
+			},
+			{
+				displayName: 'Content',
+				name: 'content',
+				type: 'string',
+				placeholder: 'Text of an idea',
+				routing: {
+					request: {
+						qs: {
+							content: '={{ $value }}',
+						},
+					},
+				},
+				default: '',
 			},
 		],
 	},
