@@ -344,6 +344,20 @@ export const ideaParameters: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				displayName: 'Sort',
+				name: 'sort',
+				type: 'string',
+				placeholder: 'Sort by ([-,+]createdAt, [-,+]updatedAt)',
+				default: '-createdAt',
+				routing: {
+					request: {
+						qs: {
+							content: '={{ $value }}',
+						},
+					},
+				},
+			},
 		],
 	},
 ];
