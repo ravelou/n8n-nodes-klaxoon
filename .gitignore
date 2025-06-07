@@ -10,3 +10,4 @@ yarn.lock
 .npmignore
 .prettierrc
 compileAndSendToGershwinou.sh
+launch.sh
