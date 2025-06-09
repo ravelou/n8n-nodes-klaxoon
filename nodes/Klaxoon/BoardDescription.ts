@@ -15,6 +15,18 @@ export const boardOperations: INodeProperties[] = [
 		},
 		options: [
 			{
+				name: 'Create Board',
+				value: 'createBoard',
+				action: 'Create a new board',
+				description: 'Create a new board with the provided details',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '=/boards',
+					},
+				},
+			},
+			{
 				name: 'Get by Access Code',
 				value: 'getByAccessCode',
 				action: 'Get the board information by access code',
@@ -94,7 +106,48 @@ export const boardParameters: INodeProperties[] = [
 		required: true,
 		description: 'The ID code of the board',
 	},
-
+	{
+		displayName: 'Title of the Board',
+		name: 'title',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['board'],
+				operation: ['createBoard'],
+			},
+		},
+		routing: {
+			send: {
+				property: 'title',
+				type: 'body',
+				value: '={{ $value }}',
+			},
+		},
+		default: '',
+		required: true,
+		description: 'The title of the board to be created',
+	},
+	{
+		displayName: 'Description of the Board',
+		name: 'description',
+		type: 'string',
+		placeholder: 'Description of the board',
+		displayOptions: {
+			show: {
+				resource: ['board'],
+				operation: ['createBoard'],
+			},
+		},
+		routing: {
+			send: {
+				property: 'description',
+				type: 'body',
+				value: '={{ $value }}',
+			},
+		},
+		default: '',
+		description: 'The title of the board to be created',
+	},
 	{
 		displayName: 'Query Parameters',
 		name: 'queryParameters',

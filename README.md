@@ -1,48 +1,164 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-klaxoon-api-mapper
 
-# n8n-nodes-starter
+This is an n8n workflow template. It lets you use Klaxoon Boards API in your n8n workflows.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+Klaxoon is a collaborative platform that provides digital workshops and board tools for teams to brainstorm, organize ideas, and collaborate remotely. This workflow mapper provides comprehensive access to the Klaxoon Boards API for managing boards, ideas, and categories.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+[Installation](#installation)  
+[Operations](#operations)  
+[Credentials](#credentials)  
+[Compatibility](#compatibility)  
+[Usage](#usage)  
+[Resources](#resources)  
+[Configuration](#configuration)
 
-## Prerequisites
+## Installation
 
-You need the following installed on your development machine:
+1. Import the workflow JSON into your n8n instance
+2. Follow the [OAuth2 setup guide](https://docs.n8n.io/integrations/builtin/credentials/oauth2/) for configuring Klaxoon credentials
+3. Configure your Klaxoon OAuth2 application credentials
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+## Operations
 
-## Using this starter
+This workflow template supports all major Klaxoon Boards API operations:
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+### Boards
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+- **List Boards** - Retrieve a paginated list of boards
+- **Get Board by Access Code** - Retrieve a specific board using its access code
 
-## More information
+### Ideas
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+- **List Board Ideas** - Get all ideas from a specific board (paginated)
+- **Create Board Idea** - Add a new idea to a board
+- **Get Board Idea** - Retrieve a specific idea by ID
+- **Update Board Idea** - Modify an existing idea's content, category, color, etc.
+- **Delete Board Idea** - Remove an idea from a board
 
-## License
+### Categories
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+- **List Board Categories** - Get all categories for a specific board
+- **Create Board Category** - Add a new category to a board
+- **Get Board Category** - Retrieve a specific category by ID
+- **Update Board Category** - Modify an existing category's label
+- **Delete Board Category** - Remove a category from a board
+
+## Credentials
+
+You need to authenticate with Klaxoon using OAuth2. Prerequisites include:
+
+1. **Klaxoon Developer Account**: Sign up at [Klaxoon Developer Portal](https://developers.klaxoon.com)
+2. **Create OAuth2 Application**: Register your application to get Client ID and Client Secret
+3. **Required Scopes**:
+   - `board:read` - For reading boards, ideas, and categories
+   - `board:write` - For creating, updating, and deleting content
+
+### OAuth2 Setup in n8n:
+
+1. Create new OAuth2 Generic credentials
+2. **Authorization URL**: `https://app.klaxoon.com/oauth/authorize`
+3. **Access Token URL**: `https://app.klaxoon.com/oauth/token`
+4. **Client ID**: Your Klaxoon app client ID
+5. **Client Secret**: Your Klaxoon app client secret
+6. **Scope**: `board:read board:write`
+
+## Compatibility
+
+- **Minimum n8n version**: 1.0.0
+- **Tested with**: n8n 1.19.4+
+- **API Version**: Klaxoon Boards API v1
+
+## Usage
+
+### Basic Configuration
+
+1. **Set Operation Parameters**: Modify the "Set Operation Parameters" node to specify:
+   - `operation`: The API operation you want to perform
+   - `boardId`: Board identifier (when required)
+   - `accessCode`: Board access code (for access code operations)
+   - `ideaId`: Idea identifier (for idea-specific operations)
+   - `categoryId`: Category identifier (for category operations)
+   - `page` and `perPage`: Pagination parameters
+
+### Available Operations
+
+Change the `operation` parameter to one of these values:
+
+- `listBoards`
+- `getBoardByAccessCode`
+- `listBoardIdeas`
+- `createBoardIdea`
+- `getBoardIdea`
+- `updateBoardIdea`
+- `deleteBoardIdea`
+- `listBoardCategories`
+- `createBoardCategory`
+- `getBoardCategory`
+- `updateBoardCategory`
+- `deleteBoardCategory`
+
+### Example Usage
+
+To list all boards:
+
+```json
+{
+	"operation": "listBoards",
+	"page": 1,
+	"perPage": 50
+}
+```
+
+To create a new idea:
+
+```json
+{
+	"operation": "createBoardIdea",
+	"boardId": "your-board-id"
+}
+```
+
+### Error Handling
+
+The workflow includes built-in error handling for common API responses:
+
+- 400 Bad Request
+- 401 Unauthorized
+- 403 Forbidden
+
+## Configuration
+
+### Base URL
+
+The workflow is configured to use `https://api.klaxoon.com` as the base URL for all API calls.
+
+### Request Headers
+
+All requests automatically include:
+
+- `Content-Type: application/json`
+- `Authorization: Bearer [token]` (handled by OAuth2 credentials)
+
+### Response Format
+
+All responses are parsed as JSON and include:
+
+- Original API response data
+- Operation metadata
+- Timestamp of execution
+
+## Resources
+
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [Klaxoon Developers Documentation](https://developers.klaxoon.com)
+- [Klaxoon Boards API Reference](https://developers.klaxoon.com/reference/boards-api)
+- [OAuth2 Authentication Guide](https://docs.n8n.io/integrations/builtin/credentials/oauth2/)
+
+## Notes
+
+- This workflow template uses placeholder values for demonstration. Replace them with your actual board IDs, access codes, and content.
+- The workflow includes comprehensive documentation via Sticky Note nodes for easy understanding and modification.
+- All HTTP requests include proper error handling and response formatting.
+- The modular design allows easy extension for additional API endpoints if needed.
