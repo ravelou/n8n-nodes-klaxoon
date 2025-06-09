@@ -11,3 +11,9 @@ yarn.lock
 .prettierrc
 compileAndSendToGershwinou.sh
 launch.sh
+.editorconfig
+.eslintrc.js
+.npmignore
+.prettierrc
+.gulpfile.js
+
