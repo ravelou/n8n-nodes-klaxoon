@@ -85,6 +85,20 @@ export const ideaParameters: INodeProperties[] = [
 		description: 'The ID code of the board',
 	},
 	{
+		displayName: 'Idea ID',
+		name: 'ideaId',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['idea'],
+				operation: ['updateBoardIdea'],
+			},
+		},
+		default: '',
+		required: true,
+		description: 'The ID code of the idea',
+	},
+	{
 		displayName: 'Content',
 		name: 'content',
 		type: 'string',
