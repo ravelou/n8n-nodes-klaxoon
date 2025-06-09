@@ -16,12 +16,6 @@ export const ideaOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-<<<<<<< HEAD
-				name: 'Delete Board Idea',
-				value: 'deleteBoardIdea',
-				action: 'Delete the board idea',
-				description: 'Delete a specific idea from a board',
-=======
 				name: 'Create an Ideas',
 				value: 'createIdea',
 				action: 'Create an idea',
@@ -38,11 +32,10 @@ export const ideaOperations: INodeProperties[] = [
 				value: 'listBoardIdeas',
 				action: 'List ideas from a board',
 				description: 'List ideas from a specific board',
->>>>>>> version-fonctionnelle
 				routing: {
 					request: {
-						method: 'DELETE',
-						url: '=/boards/$parameters["boardId"]/ideas/{{$parameters["ideaId"]}}',
+						method: 'GET',
+						url: '=/boards/{{ $parameter["boardId"] }}/ideas',
 					},
 				},
 			},
@@ -54,19 +47,6 @@ export const ideaOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '=/boards/{{ $parameter["boardId"] }}/ideas/{{ $parameter["ideaId"] }}',
-					},
-				},
-			},
-			{
-				name: 'List All Board Ideas',
-				value: 'listAllBoardIdeas',
-				action: 'List all ideas from a board',
-				description: 'List all ideas from a specific board',
-				routing: {
-					request: {
-						method: 'GET',
-						url: '=/boards/{{ $parameter["boardId"] }}/ideas',
 					},
 				},
 			},
@@ -97,22 +77,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-<<<<<<< HEAD
-				operation: [
-					'getBoardIdea',
-					'updateBoardIdea',
-					'deleteBoardIdea',
-					'listAllBoardIdeas',
-					//'createBoardIdea',
-				],
-			},
-		},
-		routing: {
-			request: {
-				//url: '=/boards/{{$value}}/ideas',
-=======
 				operation: ['listBoardIdeas', 'createIdea', 'updateBoardIdea'],
->>>>>>> version-fonctionnelle
 			},
 		},
 		default: '',
@@ -126,16 +91,7 @@ export const ideaParameters: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['idea'],
-<<<<<<< HEAD
-				operation: ['getBoardIdea', 'updateBoardIdea', 'deleteBoardIdea'],
-			},
-		},
-		routing: {
-			request: {
-				//url: '=/boards/{{$value}}/ideas',
-=======
 				operation: ['updateBoardIdea'],
->>>>>>> version-fonctionnelle
 			},
 		},
 		default: '',
@@ -143,8 +99,6 @@ export const ideaParameters: INodeProperties[] = [
 		description: 'The ID code of the idea',
 	},
 	{
-<<<<<<< HEAD
-=======
 		displayName: 'Content',
 		name: 'content',
 		type: 'string',
@@ -322,7 +276,6 @@ export const ideaParameters: INodeProperties[] = [
 	},
 
 	{
->>>>>>> version-fonctionnelle
 		displayName: 'Query Parameters',
 		name: 'queryParameters',
 		type: 'collection',
@@ -336,23 +289,10 @@ export const ideaParameters: INodeProperties[] = [
 		},
 		options: [
 			{
-<<<<<<< HEAD
-				displayName: 'Per Page',
-				name: 'perPage',
-				type: 'number',
-				default: 50,
-				displayOptions: {
-					show: {
-						resource: ['idea'],
-						operation: ['listAllBoardIdeas'],
-					},
-				},
-=======
 				displayName: 'Author ID',
 				name: 'authorId',
 				type: 'string',
 				default: '',
->>>>>>> version-fonctionnelle
 				routing: {
 					request: {
 						qs: {
@@ -397,12 +337,6 @@ export const ideaParameters: INodeProperties[] = [
 				name: 'page',
 				type: 'number',
 				default: 1,
-				displayOptions: {
-					show: {
-						resource: ['idea'],
-						operation: ['listAllBoardIdeas'],
-					},
-				},
 				routing: {
 					request: {
 						qs: {
@@ -437,64 +371,6 @@ export const ideaParameters: INodeProperties[] = [
 						},
 					},
 				},
-			},
-		],
-	},
-	{
-		displayName: 'Position Parameters',
-		name: 'positionParameters',
-		type: 'collection',
-		default: {},
-		placeholder: 'Add position parameters',
-		options: [
-			{
-				displayName: 'Position Parameters',
-				name: 'positionParameters',
-				type: 'collection',
-				default: {},
-				placeholder: 'Add position parameters',
-				options: [
-					{
-						displayName: 'Category Idea',
-						name: 'category_id',
-						type: 'string',
-						default: '',
-						placeholder: 'Category of the idea',
-					},
-					{
-						displayName: 'Color Idea',
-						name: 'color_id',
-						// eslint-disable-next-line n8n-nodes-base/node-param-color-type-unused
-						type: 'string',
-						default: '',
-						placeholder: 'color ID of the idea',
-					},
-					{
-						displayName: 'Content Idea',
-						name: 'content',
-						type: 'string',
-						default: '',
-						placeholder: 'Content of the idea',
-					},
-					{
-						displayName: 'X Position',
-						name: 'xPosition',
-						type: 'number',
-						default: 0,
-					},
-					{
-						displayName: 'Y Position',
-						name: 'yPosition',
-						type: 'number',
-						default: 0,
-					},
-					{
-						displayName: 'Z Position',
-						name: 'zPosition',
-						type: 'number',
-						default: 1,
-					},
-				],
 			},
 		],
 	},
